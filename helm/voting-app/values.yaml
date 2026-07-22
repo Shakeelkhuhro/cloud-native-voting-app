@@ -1,0 +1,43 @@
+
+global:
+  namespace: voting-app
+
+
+vote:
+  replicaCount: 2
+
+  image:
+    repository: shakeelkhuhro1/vote
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  config:
+    optionA: Cats
+    optionB: Dogs
+
+
+result:
+  replicaCount: 2
+
+  image:
+    repository: shakeelkhuhro1/result
+    tag: latest
+    pullPolicy: IfNotPresent
+
+
+redis:
+  architecture: standalone
+
+  auth:
+    enabled: false
+
+
+postgresql:
+
+  auth:
+    postgresPassword: postgres
+    username: postgres
+    password: postgres
+    database: postgres
+
+

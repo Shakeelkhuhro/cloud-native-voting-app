@@ -1,0 +1,33 @@
+replicaCount: 2
+
+image:
+  repository: shakeelkhuhro1/vote
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+config:
+  optionA: Cats
+  optionB: Dogs
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+
+livenessProbe:
+  path: /
+  initialDelaySeconds: 15
+  periodSeconds: 10
+
+readinessProbe:
+  path: /
+  initialDelaySeconds: 5
+  periodSeconds: 10

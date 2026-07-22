@@ -1,0 +1,23 @@
+
+replicaCount: 1
+
+
+image:
+
+  repository: shakeelkhuhro1/worker
+
+  tag: latest
+
+  pullPolicy: IfNotPresent
+
+
+resources:
+
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+  limits:
+    cpu: 250m
+    memory: 256Mi
+

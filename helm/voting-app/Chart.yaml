@@ -1,0 +1,34 @@
+apiVersion: v2
+name: voting-app
+description: Cloud Native Voting Application
+type: application
+
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+
+- name: vote
+  version: 0.1.0
+  repository: file://charts/vote
+
+
+- name: result
+  version: 0.1.0
+  repository: file://charts/result
+
+
+- name: worker
+  version: 0.1.0
+  repository: file://charts/worker
+
+
+- name: redis
+  version: 22.0.7
+  repository: https://charts.bitnami.com/bitnami
+
+
+- name: postgresql
+  version: 16.7.27
+  repository: https://charts.bitnami.com/bitnami
+
