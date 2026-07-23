@@ -1,47 +1,59 @@
-
 apiVersion: apps/v1
 kind: Deployment
 
 metadata:
   name: {{ include "worker.fullname" . }}
-
   labels:
     {{- include "worker.labels" . | nindent 4 }}
 
-
 spec:
-
   replicas: {{ .Values.replicaCount }}
 
-
   selector:
-
     matchLabels:
-
       {{- include "worker.selectorLabels" . | nindent 6 }}
 
-
   template:
-
     metadata:
-
       labels:
-
         {{- include "worker.selectorLabels" . | nindent 8 }}
 
-
     spec:
-
       containers:
-
       - name: worker
-
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-
         imagePullPolicy: {{ .Values.image.pullPolicy }}
 
+        env:
+        - name: REDIS_HOST
+          value: voting-app-redis-master
+
+        - name: REDIS_PORT
+          value: "6379"
+
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: voting-app-redis
+              key: redis-password
+
+        - name: POSTGRES_HOST
+          value: voting-app-postgresql
+
+        - name: POSTGRES_PORT
+          value: "5432"
+
+        - name: POSTGRES_DB
+          value: postgres
+
+        - name: POSTGRES_USER
+          value: postgres
+
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: voting-app-postgresql
+              key: postgres-password
 
         resources:
-
-          {{- toYaml .Values.resources | nindent 10 }}
-
+{{ toYaml .Values.resources | indent 10 }}

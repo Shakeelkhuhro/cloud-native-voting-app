@@ -1,43 +1,63 @@
-
 global:
   namespace: voting-app
 
+ingress:
+  enabled: true
+  className: nginx
 
-vote:
-  replicaCount: 2
+  voteHost: vote.local
+  resultHost: result.local
 
-  image:
-    repository: shakeelkhuhro1/vote
-    tag: latest
-    pullPolicy: IfNotPresent
-
-  config:
-    optionA: Cats
-    optionB: Dogs
-
-
-result:
-  replicaCount: 2
+postgresql:
+  enabled: true
 
   image:
-    repository: shakeelkhuhro1/result
-    tag: latest
-    pullPolicy: IfNotPresent
+    registry: docker.io
+    repository: postgres
+    tag: "17"
+
+  auth:
+    username: postgres
+    password: postgres
+    database: postgres
+
+redis:
+  enabled: true
+
+  image:
+    registry: docker.io
+    repository: redis
+    tag: "7.4"
+
+postgresql:
+  enabled: true
+
+  image:
+    registry: docker.io
+    repository: postgres
+    tag: "17"
+
+  auth:
+    username: postgres
+    password: postgres
+    database: postgres
+
+  primary:
+    containerSecurityContext:
+      enabled: false
+
+    podSecurityContext:
+      enabled: false
+
+redis:
+  architecture: standalone
 
 
 redis:
   architecture: standalone
 
-  auth:
-    enabled: false
-
-
-postgresql:
-
-  auth:
-    postgresPassword: postgres
-    username: postgres
-    password: postgres
-    database: postgres
-
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/redis
+    tag: "8.2.1-debian-12-r0"
 

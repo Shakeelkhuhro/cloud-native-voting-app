@@ -20,31 +20,32 @@ spec:
 
     spec:
       containers:
-        - name: vote
+      - name: vote
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
 
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 80
 
-          ports:
-            - containerPort: {{ .Values.service.targetPort }}
+        env:
 
-          envFrom:
-            - configMapRef:
-                name: {{ include "vote.fullname" . }}
+        - name: OPTION_A
+          valueFrom:
+            configMapKeyRef:
+              name: {{ include "vote.fullname" . }}
+              key: OPTION_A
 
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+        - name: OPTION_B
+          valueFrom:
+            configMapKeyRef:
+              name: {{ include "vote.fullname" . }}
+              key: OPTION_B
 
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.livenessProbe.path }}
-              port: {{ .Values.service.targetPort }}
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+        - name: REDIS_HOST
+          value: voting-app-redis-master
 
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.readinessProbe.path }}
-              port: {{ .Values.service.targetPort }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: voting-app-redis
+              key: redis-password
