@@ -325,7 +325,7 @@ kubectl top pods -n voting-app
 | Prometheus | 🚧 |
 | Grafana | 🚧 |
 | GitHub Actions CI | 🚧 |
-| ArgoCD | 🚧 |
+| ArgoCD | ✅ |
 | cert-manager | 🚧 |
 | TLS/HTTPS | 🚧 |
 | KEDA | 🚧 |
