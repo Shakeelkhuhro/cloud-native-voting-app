@@ -20,40 +20,40 @@ spec:
 
     spec:
       containers:
-      - name: worker
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: worker
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
 
-        env:
-        - name: REDIS_HOST
-          value: voting-app-redis-master
+          env:
+            - name: REDIS_HOST
+              value: voting-app-redis-master
 
-        - name: REDIS_PORT
-          value: "6379"
+            - name: REDIS_PORT
+              value: "6379"
 
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: voting-app-redis
-              key: redis-password
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: voting-app-redis
+                  key: redis-password
 
-        - name: POSTGRES_HOST
-          value: voting-app-postgresql
+            - name: POSTGRES_HOST
+              value: voting-app-postgresql
 
-        - name: POSTGRES_PORT
-          value: "5432"
+            - name: POSTGRES_PORT
+              value: "5432"
 
-        - name: POSTGRES_DB
-          value: postgres
+            - name: POSTGRES_DB
+              value: postgres
 
-        - name: POSTGRES_USER
-          value: postgres
+            - name: POSTGRES_USER
+              value: postgres
 
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: voting-app-postgresql
-              key: postgres-password
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: voting-app-postgresql
+                  key: postgres-password
 
-        resources:
-{{ toYaml .Values.resources | indent 10 }}
+          resources:
+{{- toYaml .Values.resources | nindent 12 }}

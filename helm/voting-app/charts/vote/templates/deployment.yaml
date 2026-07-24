@@ -20,32 +20,34 @@ spec:
 
     spec:
       containers:
-      - name: vote
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: vote
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
 
-        ports:
-        - containerPort: 80
+          ports:
+            - containerPort: 80
 
-        env:
+          env:
+            - name: OPTION_A
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "vote.fullname" . }}
+                  key: OPTION_A
 
-        - name: OPTION_A
-          valueFrom:
-            configMapKeyRef:
-              name: {{ include "vote.fullname" . }}
-              key: OPTION_A
+            - name: OPTION_B
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "vote.fullname" . }}
+                  key: OPTION_B
 
-        - name: OPTION_B
-          valueFrom:
-            configMapKeyRef:
-              name: {{ include "vote.fullname" . }}
-              key: OPTION_B
+            - name: REDIS_HOST
+              value: voting-app-redis-master
 
-        - name: REDIS_HOST
-          value: voting-app-redis-master
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: voting-app-redis
+                  key: redis-password
 
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: voting-app-redis
-              key: redis-password
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
