@@ -11,8 +11,8 @@ service:
   targetPort: 80
 
 config:
-  optionA: Cats
-  optionB: Dogs
+  optionA: K8s
+  optionB: Docker
 
 resources:
   requests:
